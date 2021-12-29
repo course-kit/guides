@@ -9,21 +9,21 @@ Some of the features of CourseKit include:
 - Headless platform with API
 - Secure content
 - Integration with any JS framework
-- JS widgets for course management
+- JavaScript-based widgets for video player, course controls, etc.
 
 In this guide, we’re going to see how it works and get an overview of the key features.
 
-## Getting started
+## CourseKit Dashboard
 
 To get started, create a new account with CourseKit. Once your account is created, you’ll be able to log in to the cloud-based dashboard.
 
-## Creating a course
-
 In the dashboard, you’ll first see the **courses page**. For a new account, this will be empty as you haven’t created any courses yet.
 
-![getting-started-1](assets/getting-started-1.png)
+## Creating a course
 
 To create a course, click the “add” button in the top right of the course pane.
+
+![getting-started-1](assets/getting-started-1.png)
 
 A course has a *name* and optional *home page URL*. We’ll provide a name now, and add a home page URL later.
 
