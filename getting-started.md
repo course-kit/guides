@@ -2,20 +2,20 @@
 
 > For feedback and comments see [this discussion thread](https://github.com/course-kit/guides/discussions/2).
 
-CourseKit is a headless video course hosting platform that will allow you to create an online course site with completely custom UI and UX. 
+CourseKit is a headless video course hosting platform that will allow you to easily create an online course site with completely custom UI and UX. 
 
 Some of the features of CourseKit include:
 
-- Secure content including text and video
-- Cloud API so you won’t need a server
+- Headless platform with API
+- Secure content
 - Integration with any JS framework
-- Widgets for course management
+- JS widgets for course management
 
 In this guide, we’re going to see how it works and get an overview of the key features.
 
 ## Getting started
 
-To get started, you’ll need to sign up with CourseKit. Once you’ve logged in, you’ll be taken to the cloud-based dashboard.
+To get started, create a new account with CourseKit. Once your account is created, you’ll be able to log in to the cloud-based dashboard.
 
 ## Creating a course
 
