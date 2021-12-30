@@ -25,11 +25,11 @@ To create a course, click the "add" button in the top right of the course pane.
 
 ![getting-started-1](assets/getting-started-1.png)
 
-A course has a *name* and optional *home page URL*. We'll provide a name now, and add a home page URL later.
+A course has a *name* and an optional *home page URL*. We'll provide a name now, and add a home page URL later.
 
 ![getting-started-2](assets/getting-started-2.png)
 
-After creating a course you'll be taken to the **course details page** where you can see the fields you added as well as automatically generated fields that you'll need later (specifically the *ID* and *enrolment URL*) 
+After creating a course you'll be taken to the **course details page** where you can see the fields you added as well as automatically generated fields that you'll need later (specifically the *ID* and *enrollment URL*) 
 
 ## Creating a lesson
 
@@ -61,7 +61,7 @@ In this example, we're going to create a course site with [Nuxt 2](https://nuxtj
 
 The site architecture is as follows:
 
-- A [home page](https://coursekit-nuxt-demo.netlify.app/), which show a summary of all of the available courses.
+- A [home page](https://coursekit-nuxt-demo.netlify.app/), which shows a summary of all of the available courses.
 - A dynamic [course page](https://coursekit-nuxt-demo.netlify.app/courses/1), which shows details of a course.
 - A dynamic [lesson page](https://coursekit-nuxt-demo.netlify.app/courses/1/lessons/1), which shows content of a lesson (including video).
 
@@ -105,7 +105,7 @@ order: 1
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam suscipit bibendum ex nec interdum. Phasellus erat erat, hendrerit quis pretium eu, aliquet nec orci.
 ```
 
-The content of this file will be used for static rendering of the course pages, but is also available in JavaScript at run time. Here's a quick explanation of the properties:
+The content of this file will be used for static rendering of the course pages but is also available in JavaScript at run time. Here's a quick explanation of the properties:
 
 - `id` is the course ID taken from the course we created. You can copy this from the dashboard. This will be used at runtime for calls to CourseKit APIs as well as in URL paths within the site.
 - `title`, `description` self-explanatory.
@@ -115,7 +115,7 @@ The content of this file will be used for static rendering of the course pages, 
 
 You may be wondering - why do we hardcode all this data in markdown? So long as we have the course ID, couldn't we just retrieve this data from the CourseKit API?
 
-The CourseKit API should only be used for *dynamic* or *private* data. Any public, static data should be hardcoded in the courses site so that it can be statically rendered, ensuring a better UX.
+The CourseKit API should only be used for *dynamic* or *private* data. Any public, static data should be hardcoded in the course site so that it can be statically rendered, ensuring a better UX.
 
 ## Course page
 
@@ -123,7 +123,7 @@ The course page shows the details of a specific course. To allow for dynamic con
 
 To populate the content on this page, we use JavaScript to grab the `courseId` from the URL and match that with a markdown file (remember - each course markdown file has an `id` property).
 
-You can see at the top of the page that we're utilizing the course's `title` for the title and `productURL` for the "Enrol now" button.
+You can see at the top of the page that we're utilizing the course's `title` for the title and `productURL` for the "enroll now" button.
 
 ![getting-started-7](assets/getting-started-7.png)
 
@@ -151,7 +151,7 @@ The important frontmatter properties to mention are the `id`, which is the lesso
 
 To generate the lesson summaries on the course page we use JavaScript to find any lesson belonging to this course and then grab the necessary content properties e.g. `title`, `thumbnail`, `description`, etc.
 
-Again, we will soon see how to enhance the course page with meta data from the User API (for example marking which lessons have already been completed, show the user's progress through the course, etc).
+Again, we will soon see how to enhance the course page with metadata from the User API (for example marking which lessons have already been completed, show the user's progress through the course, etc).
 
 ## Lesson page
 
@@ -161,7 +161,7 @@ The lesson page has a dynamic path */courses/:courseId/lessons/:lessonId.* Note 
 
 Because this content is secure, most of the lesson page content must be created at runtime based on the user's auth status.
 
-For example, if the user is logged in and enrolled, we show the video player. If not, we show an enrolment and log in link.
+For example, if the user is logged in and enrolled, we show the video player. If not, we show an enrollment and login link.
 
 ![getting-started-8](assets/getting-started-8.png)
 
@@ -171,24 +171,24 @@ How do we get the user's role? To understand this we'll now need to look at the 
 
 ## CourseKit API
 
-The CourseKit API makes your course data and user data available by via HTTP. It is secured by OAuth 2.
+The CourseKit API makes your course data and user data available via HTTP. It is secured by OAuth 2.
 
 While you can directly interact with the API, it's far easier to use the [CourseKit client library](https://github.com/course-kit/client) which is a very small and simple-to-use JavaScript package that can be installed from NPM.
 
-There are two main classes provided in this library: `VideoLoader` and `UserLoader`. In this section, we'll cover the `VideoLoader` as that's what's required to for the lesson page.
+There are two main classes provided in this library: `VideoLoader` and `UserLoader`. In this section, we'll cover the `VideoLoader` as that's what's required for the lesson page.
 
 ## Video Loader
 
 `VideoLoader` has two primary functions: to load the video URL from the CourseKit API and to mount a video player to the page.
 
-We'll talk about the video URL in a moment. To mount the video player, we'll need to include a DOM element somewhere in the lessons page where the where the video player will be dynamically inserted. For example:
+We'll talk about the video URL in a moment. To mount the video player, we'll need to include a DOM element somewhere in the lessons page where the video player will be dynamically inserted. For example:
 
 ```html
-<!--An empty div used as a mount element for the video player-->
+<!--An empty div used as a mounting element for the video player-->
 <div id="video"></div>
 ```
 
-### Instanciating video loader
+### Instantiating video loader
 
 To retrieve the video URL from the API, we'll need both the course ID and lesson ID (which can be extracted from the page URL at runtime). 
 
@@ -210,7 +210,7 @@ The `createPlayer` method returns a promise which resolves to an object with thr
 - `loginUrl` will be null if the user is logged in, or a URL string otherwise.
 - `player` a reference to the video player. This can be used to control the video player, capture player events, etc.
 
-`status` which will be one of four values:
+`status` will be one of four values:
 
 - `200` if the user is authenticated.
 - `401` if the user is unauthenticated.
@@ -235,11 +235,11 @@ if (status === 200) {
 }
 
 if (status === 401) {
-  // User is unauthenticated, show login URL and enrolment link
+  // User is unauthenticated, show login URL and enrollment link
 }
 
 if (status === 403) {
-  // User is unenroled, show enrolment link
+  // User is unenroled, show enrollment link
 }
 
 if (status === 500) {
@@ -247,21 +247,21 @@ if (status === 500) {
 }
 ```
 
-We haven't seen how to enrol a student yet, so we'll probably get a `401` status back from the API when the lesson page loads, indicating that the user is unauthenticated.
+We haven't seen how to enroll a student yet, so we'll probably get a `401` status back from the API when the lesson page loads, indicating that the user is unauthenticated.
 
-Let's display two buttons in the UI: one to enrol (for new students) and one to log in (for current students).
+Let's display two buttons in the UI: one to enroll (for new students) and one to log in (for current students).
 
 A good UI design idea is to overlay these buttons on the lesson video thumbnail. You could instead put these in a popup window or whatever else you like.
 
 ![getting-started-8](assets/getting-started-8.png)
 
-### Enrol and login links 
+### Enroll and login links 
 
 How do we create these two links?
 
 The `href` of the "Enrol" link is the `productUrl` (a static value) from the course frontmatter. This should be a link to buy your course from your chosen ecommerce platform (discussed below).
 
-The `href` of the "Log in" link is a *dynamic* value returned from the CourseKit API. The reason it's dynamic is because the CourseKit API is secured by OAuth and therefore requires a fresh security token in the login URL. This requires it to be re-generated on every page load.
+The `href` of the "Log in" link is a *dynamic* value returned from the CourseKit API. The reason it's dynamic is that the CourseKit API is secured by OAuth and therefore requires a fresh security token in the login URL. This requires it to be re-generated on every page load.
 
 The login URL is returned in the payload from the `createPlayer` method which, as discussed previously, should be called when the page loads.
 
@@ -280,11 +280,11 @@ Using Nuxt/Vue we can bind these values to the page dynamically:
 </template>
 ```
 
-We've now seen how the lesson page should look when the user is *unauthenticated*. Before we see how it looks when the user is authenticated, let's see how **enrolment** works.
+We've now seen how the lesson page should look when the user is *unauthenticated*. Before we see how it looks when the user is authenticated, let's see how **enrollment** works.
 
-## Enrolment flow
+## Enrollment flow
 
-For a student to be able to see your course's content you'll need to enrol them. This involves multiple steps which we'll cover below. But first, a high-level overview:
+For a student to be able to see your course's content you'll need to enroll them. This involves multiple steps which we'll cover below. But first, a high-level overview:
 
 1. Student purchases course
 2. Webhook from ecommerce platform informs CourseKit of new student
@@ -319,16 +319,16 @@ Go ahead and set the Redirect URL of your product back to your course landing pa
 
 ![getting-started-10](assets/getting-started-10.png)
 
-## Enrolment URL
+## Enrollment URL
 
 Once a student has purchased a course on your ecommerce platform, how do they get enrolled on CourseKit?
 
-You'll recall from the beginning of the guide that each course you create is automatically assigned an **enrolment URL**. This URL is an endpoint where you can POST data of students you wish to enrol in that course. Both *name* and *email* are required fields.
+You'll recall from the beginning of the guide that each course you create is automatically assigned an **enrollment URL**. This URL is an endpoint where you can POST data of students you wish to enroll in that course. Both *name* and *email* are required fields.
 
-Here's an example of how you'd enrol a student using Curl:
+Here's an example of how you'd enroll a student using Curl:
 
 ```bash
-curl -X POST https://api.coursekit.dev/enrol/f89d0sk0k2
+curl -X POST https://api.coursekit.dev/enroll/f89d0sk0k2
    -H "Content-Type: application/json"
    -d '{"email": "kilgore@trout.com", "name": "Kilgore Trout"}'
 ```
@@ -336,15 +336,15 @@ curl -X POST https://api.coursekit.dev/enrol/f89d0sk0k2
 > Note: this URL should be kept secret as it could be used by anyone to add students to your course! Don't include it in any source code.
 > 
 
-## Enrolment webhook
+## Enrollment webhook
 
-The intention of the enrolment URL is that it will be used by a webhook on your ecommerce platform.
+The intention of the enrollment URL is that it will be used by a webhook on your ecommerce platform.
 
-For example, Gumroad provides a webhook service called Ping that will post a customer's data to a URL after a purchase is made. You can simply include the enrolment URL generated by CourseKit here and it will work.
+For example, Gumroad provides a webhook service called Ping that will post a customer's data to a URL after a purchase is made. You can simply include the enrollment URL generated by CourseKit here and it will work.
 
 ![getting-started-11](assets/getting-started-11.png)
 
-To test this, go to either the course page or lesson page and click the "Enrol" button. You'll then be taken to the product purchase page on Gumroad where you can make a test purchase.
+To test this, go to either the course page or lesson page and click the "Enroll" button. You'll then be taken to the product purchase page on Gumroad where you can make a test purchase.
 
 ![getting-started-12](assets/getting-started-12.png)
 
@@ -356,11 +356,11 @@ Note that the status of this student is "Pending". To get to the "Active" status
 
 ## Course activation
 
-Now that the Gumroad product and webhook are setup we need to direct students to activate their new course. 
+Now that the Gumroad product and webhook are set up we need to direct students to activate their new course. 
 
 In the activation process, the student will either log in to CourseKit or create a new account. This is necessary to ensure your students have secure access to the courses they've purchased.
 
-Let's go one step back to when a student purchases your course. After the payment is processed successfully, Gumroad will redirect them back to your course page. It's a good idea to show a message here so that student are informed that they won't be able to access the course until they activate their account.
+Let's go one step back to when a student purchases your course. After the payment is processed successfully, Gumroad will redirect them back to your course page. It's a good idea to show a message here so that students are informed that they won't be able to access the course until they activate their account.
 
 > Note: Gumroad will automatically append a query parameter `sale` to the redirect URL. You can use JavaScript to check for this parameter and conditionally show the message.
 
@@ -378,15 +378,15 @@ When the unique link in the email is clicked, the student is sent to the CourseK
 
 ## Activation redirect
 
-Once the student has created their account, they will need to be redirected somewhere. This should probably be your course landing page so they're able to get started on your course immediately afterwards.
+Once the student has created their account, they will need to be redirected somewhere. This should probably be your course landing page so they're able to get started on your course immediately afterward.
 
 By default, CourseKit will redirect them to a generic "Thanks for registering" page. It's better, though, if you provide a *home page URL* value for your course.
 
-To do this, you'll need to edit your course in the dashboard and provide your course's home page URL, for example https://coursekit-nuxt-demo.netlify.app/courses/1. Again, if you're developing locally, you can use an ngrok URL.
+To do this, you'll need to edit your course in the dashboard and provide your course's home page URL, for example, https://coursekit-nuxt-demo.netlify.app/courses/1. Again, if you're developing locally, you can use an ngrok URL.
 
 ![getting-started-17](assets/getting-started-17.png)
 
-Now that that is set up, new students will be redirected to your course landing page after they create their account.
+Now that that is set up, new students will be redirected to your course landing page after they create an account.
 
 Again, you should display a message to let them know their activation was successful. CourseKit will add a `registered` query parameter to your course home page URL which you can detect with JavaScript and use to conditionally show a message.
 
@@ -398,7 +398,7 @@ If you check the CourseKit dashboard again, you'll see your student's status has
 
 ## Authenticated student features
 
-Let's return now to the lesson page which we were looking at before the discussion of enrolment.
+Let's return now to the lesson page which we were looking at before the discussion of enrollment.
 
 When a student logs in or registers with CourseKit they will now be authenticated with the CourseKit API.
 
@@ -426,11 +426,11 @@ Being authenticated with the CourseKit API provides several other features in ad
 
 ![getting-started-20](assets/getting-started-20.png)
 
-This and many othr features are available through the **User API** and will be the subject of the last part of this guide.
+This and many other features are available through the **User API** and will be the subject of the last part of this guide.
 
 ## User API
 
-The `UserLoader` class of the CourseKit client library provides access to the User API. This API provides meta data that can be utilized to improve the UX of the site especially for authenticated students.
+The `UserLoader` class of the CourseKit client library provides access to the User API. This API provides metadata that can be utilized to improve the UX of the site, especially for authenticated students.
 
 Some of the possible features include:
 
@@ -497,7 +497,7 @@ player.addEventListener('ended', markCompleteAndNext)
 
 ## Course page features
 
-Based on lesson completion meta data, the User API provides helper methods that will provide common course page features including:
+Based on lesson completion metadata, the User API provides helper methods that will provide common course page features including:
 
 - `user.isLessonComplete(courseId, lessonId)` returns boolean based on completion status of lesson.
 - `user.getNextLessonId(courseId)` returns the next incomplete lesson ID from the specified course
@@ -509,7 +509,7 @@ These methods will provide the data you'll require for a "resume" button, a cour
 
 ### Resume button
 
-On your course page you'll probably want a "resume" button which will take the user to the next lesson from where they previously stopped. Use the `getNextLessonId` method for this.
+On your course page, you'll probably want a "resume" button which will take the user to the next lesson from where they previously stopped. Use the `getNextLessonId` method for this.
 
 ```js
 const nextLessonId = user.getNextLessonId(courseId)
@@ -518,7 +518,7 @@ router.push(`/courses/${courseId}/lessons/${nextLessonId}`
 
 ### Progress meter
 
-On the course page you can also include a course progress meter UI feature so a user can see how much of the course they've already completed.
+On the course page, you can also include a course progress meter UI feature so a user can see how much of the course they've already completed.
 
 Use the `getProgress` method and either show this as a value, or use to it to power a visual indicator.
 
@@ -548,8 +548,8 @@ Similar to the completed lessons flag, we can map our courses and include an `en
 
 ```js
 const coursesWithStatus = courses.map(course => {
-	course.enrolled = user.isCourseEnrolled(course.id)
-	return course
+  course.enrolled = user.isCourseEnrolled(course.id)
+  return course
 })
 ```
 
@@ -557,7 +557,7 @@ const coursesWithStatus = courses.map(course => {
 
 The final feature we'll look at in this guide is account management. To make things easier, CourseKit provides a student account management page where students can change their password, update their email address, etc.
 
-If you look at any of the previous screenshots, you'll see that when the user is unauthenticated, we provide a "Log in" button in the nav bar, and when they're authenticated we change it to a "My account" button.
+If you look at any of the previous screenshots, you'll see that when the user is unauthenticated, we provide a "Log in" button in the nav bar, and when they're authenticated we change it to a "My Account" button.
 
 These buttons require a URL from the API since, as mentioned, the URLs need fresh OAuth tokens to be valid.
 
@@ -570,14 +570,14 @@ const { status, loginUrl, user } = await userLoader.createUser()
 
 const btn = document.querySelector('.navbar a.user-btn')
 if (status === 200 || status === 403) {
-	btn.setAttribute('href', user.getAccountUrl())
-	btn.innerHTML = 'Manage account'
+  btn.setAttribute('href', user.getAccountUrl())
+  btn.innerHTML = 'Manage account'
 } else {
-	btn.setAttribute('href', loginUrl)
-	btn.innerHTML = 'Log in'
+  btn.setAttribute('href', loginUrl)
+  btn.innerHTML = 'Log in'
 }
 ```
 
 ## Wrap up
 
-In this guide we've covered the key features of the CourseKit platform including the dashboard and API. We've seen how to utilize these features to create a secure course in a Nuxt static site.
+In this guide, we've covered the key features of the CourseKit platform including the dashboard and API. We've seen how to utilize these features to create a secure course in a Nuxt static site.
