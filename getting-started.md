@@ -319,7 +319,7 @@ Go ahead and set the Redirect URL of your product back to your course landing pa
 
 ![getting-started-10](assets/getting-started-10.png)
 
-## Enrollment URL
+### Enrollment URL
 
 Once a student has purchased a course on your ecommerce platform, how do they get enrolled on CourseKit?
 
@@ -336,7 +336,7 @@ curl -X POST https://api.coursekit.dev/enroll/f89d0sk0k2
 > Note: this URL should be kept secret as it could be used by anyone to add students to your course! Don't include it in any source code.
 > 
 
-## Enrollment webhook
+### Enrollment webhook
 
 The intention of the enrollment URL is that it will be used by a webhook on your ecommerce platform.
 
@@ -462,7 +462,7 @@ if (status === 401) {
 
 ```
 
-## Lesson completion
+## Lesson page features
 
 Part of a good online course UX is to allow students to mark lessons as complete so they can track their progress and know what to look at next time they visit the course.
 
