@@ -1,6 +1,6 @@
 # CourseKit Getting Started Guide
 
-> For feedback and comments see [this discussion thread](https://github.com/course-kit/guides/discussions/2).
+> For feedback and comments see [this discussion thread](https://github.com/course-kit/guides/discussions/3).
 
 CourseKit is a headless video course hosting platform that will allow you to easily create an online course site with completely custom UI and UX. 
 
