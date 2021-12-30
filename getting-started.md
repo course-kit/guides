@@ -123,7 +123,7 @@ The course page shows the details of a specific course. To allow for dynamic con
 
 To populate the content on this page, we use JavaScript to grab the `courseId` from the URL and match that with a markdown file (remember - each course markdown file has an `id` property).
 
-You can see at the top of the page that we're utilizing the course's `title` for the title and `productURL` for the "enroll now" button.
+You can see at the top of the page that we're utilizing the course's `title` for the title and `productURL` for the "Enroll now" button.
 
 ![getting-started-7](assets/getting-started-7.png)
 
@@ -239,7 +239,7 @@ if (status === 401) {
 }
 
 if (status === 403) {
-  // User is unenroled, show enrollment link
+  // User is unenrolled, show enrollment link
 }
 
 if (status === 500) {
@@ -259,7 +259,7 @@ A good UI design idea is to overlay these buttons on the lesson video thumbnail.
 
 How do we create these two links?
 
-The `href` of the "Enrol" link is the `productUrl` (a static value) from the course frontmatter. This should be a link to buy your course from your chosen ecommerce platform (discussed below).
+The `href` of the "Enroll" link is the `productUrl` (a static value) from the course frontmatter. This should be a link to buy your course from your chosen ecommerce platform (discussed below).
 
 The `href` of the "Log in" link is a *dynamic* value returned from the CourseKit API. The reason it's dynamic is that the CourseKit API is secured by OAuth and therefore requires a fresh security token in the login URL. This requires it to be re-generated on every page load.
 
@@ -274,7 +274,7 @@ Using Nuxt/Vue we can bind these values to the page dynamically:
 ```html
 <template>
   <div class="overlay-buttons">	
-    <a :href="productUrl">Enrol</a>
+    <a :href="productUrl">Enroll</a>
     <a :href="loginUrl">Log in</a>
   </div>
 </template>
