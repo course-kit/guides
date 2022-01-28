@@ -178,7 +178,7 @@ We'll first link your forked template to a Netlify site. To do this, go back to 
 $ netlify init
 ```
 
-Select the following prompts:
+Enter the following at subsequent prompts:
 
 ```
 ? What would you like to do? Create & configure a new site
