@@ -1,25 +1,27 @@
-# Quickstart - Part 1
+# CourseKit Quick-Start Guide
+## Part 1: Set up and deploy course site
 
 CourseKit is the easiest way for developers to create fully-custom online courses using their favorite frontend tech stack. Thanks to the CourseKit headless API platform, you won’t need a server, just a static site and you’ll get all the features you’ll need to provide a rich course experience for your prospective students.
 
-This guide will show you how to get a working CourseKit site up and running in around ten minutes! After that, you can go back and customize it how you want, and fill in the content for your lessons so you’re ready to launch.
+This guide will take you through the steps of setting up a working CourseKit site in around ten minutes! After that, you can go back and customize it how you want and fill in the content for your lessons so you’re ready to launch.
 
-The guide is in three parts that you should do sequentially. Here is an overview of the steps:
+The guide is in three sequential parts:
 
-1. **Part 1 - Set up and deploy course site (this document)**
+1. **Part 1: Set up and deploy course site (this document)**
     1. **Create a CourseKit account**
     2. **Clone one of the site templates on GitHub**
     3. **Link your site to your account**
     4. **Deploy to Netlify**
-2. Part 2 - Enable paid students with Stripe enrollement
-3. Part 3 - Add lesson content including Vimeo videos
+2. [Part 2: Enable paid students with Stripe enrollment](./quick-start-part-2.md)
+3. [Part 3: Add lesson content including Vimeo videos](./quick-start-part-3.md)
 
-> Note: if you need any help or have any questions be sure to join the [CourseKit Discord](https://discord.gg/ugXJFkw6hv).
-> 
+> **Note: if you need any help or have any questions be sure to join the [CourseKit Discord](https://discord.gg/ugXJFkw6hv).**
 
-## What you’ll build
+## What you’ll build in part 1
 
-By the end of the first part of the quickstart, you’ll have a static site setup where your course and lessons will be displayed. You’ll be able to then manually add students who can log in and take your course.
+By the end of the first part of the guide, you'll have cloned a CourseKit static site template and deployed it to Netlify. This static site will display courses and lessons that can be edited from the dashboard. You'll be able to manually add students who can log in and take your course.
+
+Here's what your site home page will look like:
 
 ![quick-start-1-5.png](assets/quick-start-1-5.png)
 
@@ -28,19 +30,19 @@ By the end of the first part of the quickstart, you’ll have a static site setu
 To use this guide you’ll need the following:
 
 - GitHub account
-- Netlify account
+- [Netlify account](https://netlify.com)
 - Node & NPM installed
-- Netlify CLI installed
+- [Netlify CLI](https://docs.netlify.com/cli/get-started/) installed
 
 ## Create a CourseKit account
 
-To begin with, you’ll need to create your CourseKit school. Go to [https://dashboard.coursekit.dev](https://dashboard.coursekit.dev) and create an account.
+The first thing we'll do is create a CourseKit school. Go to [https://dashboard.coursekit.dev](https://dashboard.coursekit.dev) and register for an account.
 
 ![quick-start-1-1.png](assets/quick-start-1-1.png)
 
 After your account is created you’ll be taken to the CourseKit dashboard. If you click on the “Courses” tab you’ll be able to see your basic school information and your courses. 
 
-There are already two test courses added by default to a new user’s account - *Photography for Beginners* and *Advanced Photography*. These courses provide dummy data you can play with and help you understand how courses are created. After you complete this quickstart you can, of course, customize these with your own content, or delete them altogether.
+> Note: there are already two test courses added by default to a new user’s account - *Photography for Beginners* and *Advanced Photography*. These courses provide dummy data you can play with and help you understand how courses set up in CourseKit. After you complete this quickstart you can, of course, customize these with your own content, or delete them altogether.
 
 ![quick-start-1-2.png](assets/quick-start-1-2.png)
 
