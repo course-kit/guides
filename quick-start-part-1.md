@@ -154,23 +154,25 @@ Once you've created a student account you'll be redirected to the course home pa
 
 ![quick-start-1-12.png](assets/quick-start-1-12.png)
 
-Returning to the dashboard, refresh the page and you should now see the student status has gone from "PENDING" to "ACTIVE". This means they now have an active enrollment in the specified course.
+Returning to the student tab of the dashboard, refresh the page and you should now see the student status has gone from "PENDING" to "ACTIVE". This means they now have an active enrollment in the specified course.
 
 ![quick-start-1-13.png](assets/quick-start-1-13.png)
 
 ## Logged in features
 
-Now that you’re logged in to your site, click around and you’ll see a variety of features you couldn’t see when you were logged out. For example, clicking on a lesson page you should see the lesson content!
+Now that you're logged in as a student, click around your site and you'll see a variety of features you couldn't see previously. Most notably, if you click a lesson page you should now be able to see the lesson content!
+
+All the lessons of the dummy courses have a test Vimeo video and some lorem ipsum text. In part 3 of the guide, we'll see how to customize these.
 
 ![quick-start-1-14.png](assets/quick-start-1-14.png)
 
-Go ahead and experiement with the site - play the video, complete the lessons, etc. Keep in mind all the content and site behavior can be customized.
+Go ahead and experiement with the site - play the video, complete the lessons, etc. And keep in mind all the content and site behavior can be customized by modifying the code of your template. If you're interested in how to do this, check out the [CourseKit JavaScript client](https://github.com/course-kit/client).
 
 ## Deploy to Netlify
 
-In the last section of this guide we’ll deploy the site to Netlify so it can be used by prospective students. We’ll first link your forked template to a Netlify site. 
+In the last section of this guide we'll deploy the site to Netlify so it is publicly available for your students to use. 
 
-To do this, kill your Netlify dev server (Ctrl + C) then run:
+We'll first link your forked template to a Netlify site. To do this, go back to the terminal and kill your Netlify dev server (Ctrl + C) then run:
 
 ```
 $ netlify init
@@ -179,51 +181,54 @@ $ netlify init
 Select the following prompts:
 
 ```
-**? What would you like to do?** Create & configure a new site
-**? Team:** <select your team>
-**? Site name (optional):** <either choose something or leave blank>
-**? Your build command (hugo build/yarn run build/etc):** npm run generate
-**? Directory to deploy (blank for current dir):** dist
-**? Netlify functions folder:** functions
+? What would you like to do? Create & configure a new site
+? Team: <select your team>
+? Site name (optional): <either choose something or leave blank>
+? Your build command (hugo build/yarn run build/etc): npm run generate
+? Directory to deploy (blank for current dir): dist
+? Netlify functions folder: functions
 ```
 
 Netlify should now print out your site details including the site URL.
 
-Next, we’ll set our environment variables. For now, we’ll only need one for the school ID.
-
+Next, we'll need to set environment variables in the Netlify site.
 ```
 $ netlify env:set COURSEKIT_SCHOOL_ID <your schoolId> 
 $ netlify env:set NODE_ENV production
 ```
 
-You’ll now need to rebuild the site for these environment variables to be incorported in the site build. To do this, 
+You’ll now need to rebuild the site for these environment variables to be incorported in the site build. To do this, you'll have to go the Netlify site and manually trigger a deploy:
 
 ![quick-start-1-15.png](assets/quick-start-1-15.png)
 
 ## Configure production site in dashboard
 
-The final thing we need to do is tell the CourseKit dashboard about the new site.
+The final thing we need to do is tell the CourseKit dashboard about the production site - specifically, we have to set the redirect URLs.
 
-For a student to be redirected to your course after the login or out, we need to set the URLs in the course dashboard. We didn’t have to do this before in local development because the aut-generated  efore that we set our school homepage and individual course homepages in the dashboard? We set those to *local* values so we could test locally. Let’s now set the deploy values as well - so we’ll set the school URL, and a home URL for each course
+Firstly, we'll set the school URL. To do this, go to the Courses tab, and click the edit button in the top right of the School pane.
 
-```
-// School URL
-<your netlify url>
-
-// Each course URL
-<your netlify url>/courses/<course id>
-```
+Set the School URL (production) value to the URL of your Netlify site.
 
 ![quick-start-1-18.png](assets/quick-start-1-18.png)
 
+Next, set the URL of each course. To do this, go to a course, and copy the course ID from the Course info pane. Then click the edit course button (top right of Course info pane).
+
+Set the homepage URL (production) of your course to:
+
+```
+<your netlify url>/courses/<course id>
+```
+
 ![quick-start-1-16.png](assets/quick-start-1-16.png)
+
+Repeat this for the other course:
 
 ![quick-start-1-17.png](assets/quick-start-1-17.png)
 
-With that done, students will now be able to log in and out of your production course.
+> Note 1: these values are required so CourseKit knows where to redirect your student after they login to your school or enroll in a course. 
+
+> Note 2: You can have both a development value and a production value for each redirect URL. We didn't have to set the development URL value because that was auto-generated as part of the dummy course data.
 
 ## Wrap up
 
-With that done, you now have a deployed course site! My recommendation is that you now spend some time exploring the dashboard and template code to better understand the 
-
-In part 2 of the quickstart, we’ll set up Stripe products so that users can now enroll by purchasing the course.
+With that done, you now have a deployed course site! In [part 2 of the quick start guide](./quick-start-part-2.md), we'll set up Stripe products so that students can enroll themselves by purchasing the course.
