@@ -108,55 +108,53 @@ Let's now run a dev server:
 $ netlify dev
 ```
 
-After the dev server finishes compiling, Netlify CLI will open your site in the browser. 
+After the dev server finishes compiling, Netlify CLI will open your site in the browser. If you've configured it correctly, the home page will display your two courses.
 
-> Note: you will need to use the default port of 8888 otherwise the redirect URLs in the dashboard will be wrong (redirect URLs will be explained later in the guide).
+> Note: you will need to use the default port of 8888 for the dev server otherwise the redirect URLs in the dashboard will be wrong (redirect URLs will be explained later in the guide).
 
 ![quick-start-1-5.png](assets/quick-start-1-5.png)
 
-Now, take a look around your site. You should see your two courses being rendered, as well as all the lessons. Here’s what the main course page looks like:
+Now, take a look around your site. Click you courses and see the main course page, as well as all the lessons.
 
 ![quick-start-1-6.png](assets/quick-start-1-6.png)
 
-To see the lesson content, you’ll need to login as a student. If you click the login button in the navigation bar, you’ll be taken to the login screen:
+You'll notice that the lesson content cannot be viewed without logging in as a student. If you click the **login** button in the navigation bar (top right), you’ll be taken to the login screen:
 
 ![quick-start-1-7.png](assets/quick-start-1-7.png)
 
-You can only login to the site as a student. How can we add a student account?
+We haven't yet added any student accounts, though, so let's do that now.
 
-## Adding test student
+## Enrolling test students
 
-To enroll a student in your course, you can get them to pay for your course via an ecommerce tools like Stripe or Gumroad. After they’ve paid, you can use a webhook to add them to CourseKit with the API. We’ll be setting this up in part 2 of the quickstart.
+To enroll a student in one of your courses, you will likely get them to pay for your course via an ecommerce platform like Stripe or Gumroad. After they've paid, you can use a webhook to add them to CourseKit with the API. 
 
-For now, we can simply add students to your course manually via the dashboard.
+We'll be setting up Stripe payments in part 2 of this guide. For now, you can add students to your courses manually via the dashboard.
 
-Go to Students tab of the dashboard and click the add (plus) button where you can enter a name and email, and select a course.
+Go to **Students tab** of the dashboard and click the add (plus) button where you can enter a name, email, and select a course. You'll should also tick the checkbox indicating that the student should be redirected to the development site after login rather than the production site.
 
-> Note 1: you’ll need to use an email address that you can access, since, as we’ll see, students require email activation. However, the email should be different to your CourseKit user email. If you don’t have extra email addresses, an easy way is to put a “+” e.g. yourname+something@domain.com. This email should automatically be aliased to your current inbox.
-> 
-
-> Note 2: Tick the box the says “Redirect to homepage URL”
-> 
+> Note 1: you'll need to use an email address that you can access since students require email activation. However, the email should be different to your CourseKit user email. If you don't have extra email addresses, an easy way is to append `+<some string>` to your email prefix e.g. *yourname+somestring@domain.com*. This email should automatically be aliased to your current inbox.
 
 ![quick-start-1-19.png](assets/quick-start-1-19.png)
 
-After you’ve added a student, you’ll see them added to your student list with status “Pending”. This means they’ve been sent an activation email and will now need to create an account.
+After you've added a student, you'll see them in your student list with status "PENDING". This means they've been sent an activation email and will now need to create an account.
 
 ![quick-start-1-9.png](assets/quick-start-1-9.png)
 
-You should now receive the activation email. This email contains a unique URL that allows you to create an account and enroll in the course.
+You should now receive the activation email. This email contains a unique URL that allows the student to create an account and enroll in the course.
 
 ![quick-start-1-10.png](assets/quick-start-1-10.png)
 
-Click the link, and you’ll be asked to register for the course.
+Click the link, and you'll be asked to register for the course. To re-iterate, this is not the same login as the dashboard - this is the login for student accounts so create a unique account here.
 
 ![quick-start-1-11.png](assets/quick-start-1-11.png)
 
-Once you’ve created an account, you will be redirected to the course home page (remember, we set this URL in the dashboard so if it’s wrong you’ll need to fix it there).
+Once you've created a student account you'll be redirected to the course home page.
+
+> Note: if the redirect failed, you either didn't use port 8888 for your site or you didn't check the "Redirect to dev homepage URL" option when you enrolled the student!
 
 ![quick-start-1-12.png](assets/quick-start-1-12.png)
 
-Returning to the dashboard, refresh the page and you should now see the student has gone from “Pending” to “Active”.
+Returning to the dashboard, refresh the page and you should now see the student status has gone from "PENDING" to "ACTIVE". This means they now have an active enrollment in the specified course.
 
 ![quick-start-1-13.png](assets/quick-start-1-13.png)
 
