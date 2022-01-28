@@ -46,32 +46,31 @@ After your account is created you’ll be taken to the CourseKit dashboard. If y
 
 ![quick-start-1-2.png](assets/quick-start-1-2.png)
 
-Click on one of the courses and you’ll see it has four lessons attached to it. You can add more lessons by clicking the “plus” icon on the right of the Lessons pane.
+Click the Photography for Beginners course and you’ll see it has four lessons attached.
 
 ![quick-start-1-3.png](assets/quick-start-1-3.png)
 
-You may have questions about what some of the other fields are for. We’ll come back to the dashboard later and calrify this.
+You may have questions about what some of the other fields are for. We'll utilize all of these fields later in the guide!
 
-## Clone template
+## Install site template
 
-Now that you have an account with some test courses and lessons created, let’s now clone a static site template that we can customize and deploy. This will allos us to get basic features of a course set up so you getting up and running quickly. Again, you can come back later and customize this to your taste.
+Now that you have an account with some test courses and lessons created, you'll want to create a course website where you courses will be displayed.
 
-As CourseKit is still new, we currently only have the [Nuxt (Vue.js)](https://github.com/course-kit/nuxt-demo) template available (more will be providing using other JavaScript frameworks soon).
+Rather than doing that from scratch, let's install this [site template](https://github.com/course-kit/nuxt-demo). This will allow us to get the basic features of a course set up now and come back later and customize the UI and UX to your taste.
 
-> Note: even if you don’t want to use Nuxt to create your course, I recommend you continue following this guide so you can get an understanding of how CourseKit will help you. It won’t matter if you aren’t familiar with Nuxt or Vue.
-> 
+> Note: as CourseKit is still new, we currently only have the [Nuxt (Vue.js)](https://github.com/course-kit/nuxt-demo) template available (more will be providing using other JavaScript frameworks). Even if you don't want to use Nuxt or Vue to create your course, I recommend you continue following this guide to get a feel for CourseKit and then build your own site later.
 
-Firstly, make a fork of the template. It’s important that you have your own private repo that you can deploy from.
+To install the template, first, make a fork by clicking the "Fork" button in the top right. It's important to do this so that you have your own private repo that you can deploy from.
 
 ![quick-start-1-4.png](assets/quick-start-1-4.png)
 
-Once you’ve forked the template, open a terminal and clone the template on your computer:
+Once you've forked the template, open a terminal and clone the template on your computer:
 
 ```bash
 $ git clone https://github.com/<your-github-account>/nuxt-demo.git
 ```
 
-Now change into the directory and install NPM modules.
+Now, change into the directory and install NPM modules.
 
 ```bash
 $ cd nuxt-demo
@@ -80,33 +79,38 @@ $ npm i
 
 ## Add config
 
-In the root of the code you should now create a `.env` file where you’ll add configuration.
+After the NPM modules are install, create a `.env` file where you can add environment variables for config.
 
 ```
 $ touch .env
 ```
 
-It’s important to set the `NODE_ENV` to `development` so that our site uses development features and so the CourseKit API realizes we’re in test mode. You’ll also need to set the `COURSEKIT_SCHOOL_ID` here so CourseKit knows which school to link this site to. You can find this value in the dashboard.
+Firstly, set the `NODE_ENV` variable to `development` so that our site uses development features and the CourseKit API realizes we're in test mode. You'll also need to set the `COURSEKIT_SCHOOL_ID` here so CourseKit knows which school to link this site to. 
+
+> You can find your school ID in the dashboard on the "Courses" page.
 
 *.env*
 
 ```
 NODE_ENV=development
-COURSEKIT_SCHOOL_ID=
+COURSEKIT_SCHOOL_ID=<your school ID>
 ```
+
+Now save the .env file.
 
 ## Run dev server
 
-In this Quickstart we’ll be using Netlify to deploy our course site. You’ll need the [Netlify CLI](https://docs.netlify.com/cli/get-started/) installed as we’ll be using several features and commands. Let’s begin by running a dev server:
+In this guide, we'll be using Netlify to deploy our course site. You'll need the [Netlify CLI](https://docs.netlify.com/cli/get-started/) installed as we'll be using several CLI features and commands. 
+
+Let's now run a dev server:
 
 ```
 $ netlify dev
 ```
 
-After the dev server finishes compiling this will run your site and open it in the browser. 
+After the dev server finishes compiling, Netlify CLI will open your site in the browser. 
 
-> Note: you will need to use the default port of 8888 otherwise the redirect URLs in the test data will be wrong.
-> 
+> Note: you will need to use the default port of 8888 otherwise the redirect URLs in the dashboard will be wrong (redirect URLs will be explained later in the guide).
 
 ![quick-start-1-5.png](assets/quick-start-1-5.png)
 
