@@ -284,30 +284,28 @@ Next, go to "Pricing information" and set a price of your choice. Make sure it�
 
 ![quick-start-1-21.png](assets/quick-start-1-21.png)
 
-You’ll now have a product created and will be taken to the product overview page. Under the “Pricing” heading, you’ll see that you’ve been given a price API ID (start with “price_...”). Copy this value.
+Go ahead and create the product after which you'll be taken to the product detail page. Under the "Pricing" heading, you’ll see that you've been given a **price API ID** (start with `price_...`). Copy this value.
 
-Back in your course code base, go to the .env file and add a new environment variable `COURSE_1_PRICE_ID`:
+Go back to the .env file and add a new environment variable `COURSE_1_PRICE_ID`:
+
+*.env*
 
 ```
 COURSE_1_PRICE_ID=price_a73....
 ```
 
-Now, repeat the above steps for the second course, “Advanced Photography”. After you’re done, you should have the price ID env variable stored for both courses:
+Repeat the above steps now for the second course, "Advanced Photography". After you're done, you should have the price ID env variable stored for both courses:
 
 ```
 COURSE_1_PRICE_ID=price_a73....
 COURSE_2_PRICE_ID=price_xv4....
 ```
 
-## CourseKit API
+## Adding price ID to course content
 
-As will be explained below, the price IDs we’ve added to the environment variables will be used by the webhook to check which product was purchased by the student so it knows which course to enroll them in.
+As will be explained below, the price API IDs we've added to the environment variables will be used in the enrollment webhook. However, the frontend site also needs this same data. Since the site data is populated dynamically, we ideally don't want to hardcode this, so let'sadd the price IDs to our course content in the dashboard.
 
-However, the site itself also needs this data. Since the site data is populated dynamically, we will also need to add the price ID to our API
-
-In the dashboard, go the Courses tab and find your content. Add a new frontmatter variable to the `public` object which will be `stripePriceId`. 
-
-Save, and repeat for the other course.
+Go the Courses, and add a new frontmatter variable to the `public` object which will be `stripePriceId`. 
 
 ```
 ---
@@ -318,6 +316,8 @@ public:
 ---
 Pellentesque aliquet odio arcu, at vestibulum orci molestie vel. Maecenas fringilla nibh et nisl lobortis cursus. Sed aliquam congue lobortis.
 ```
+
+Save, and repeat for the other course.
 
 ## Test purchase
 
