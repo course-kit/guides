@@ -1,25 +1,24 @@
 # CourseKit Quick-Start Guide
-## Part 1: Set up and deploy course site
 
 CourseKit is the easiest way for developers to create fully-custom online courses using their favorite frontend tech stack. Thanks to the CourseKit headless API platform, you won’t need a server, just a static site and you’ll get all the features you’ll need to provide a rich course experience for your prospective students.
 
-This guide will take you through the steps of setting up a working CourseKit site in around ten minutes! After that, you can go back and customize it how you want and fill in the content for your lessons so you’re ready to launch.
+This guide will take you through the steps of setting up a working CourseKit site in around fifteen minutes! After that, you can go back and customize it how you want and fill in the content for your lessons so you’re ready to launch.
 
-The guide is in three sequential parts:
+Here's a summary of the main steps:
 
-1. **Part 1: Set up and deploy course site (this document)**
-    1. **Create a CourseKit account**
-    2. **Clone one of the site templates on GitHub**
-    3. **Link your site to your account**
-    4. **Deploy to Netlify**
-2. [Part 2: Enable paid students with Stripe enrollment](./quick-start-part-2.md)
-3. [Part 3: Add lesson content including Vimeo videos](./quick-start-part-3.md)
+1. Create a CourseKit account
+2. Clone one of the site templates on GitHub
+3. Link your site to your account
+4. Deploy to Netlify
+5. Set up Stripe products
+6. Set up Stripe webhook
+7. Link Stripe products to site
 
 > **Note: if you need any help or have any questions be sure to join the [CourseKit Discord](https://discord.gg/ugXJFkw6hv).**
 
-## What you’ll build in part 1
+## What you’ll build
 
-By the end of the first part of the guide, you'll have cloned a CourseKit static site template and deployed it to Netlify. This static site will display courses and lessons that can be edited from the dashboard. You'll be able to manually add students who can log in and take your course.
+By the end of the guide, you'll have cloned a CourseKit static site template and deployed it to Netlify. This static site will display courses and lessons that can be edited from the dashboard. Students will be able to enroll by purchasing a Stripe product after which they can log in and take your course.
 
 Here's what your site home page will look like:
 
@@ -31,6 +30,7 @@ To use this guide you’ll need the following:
 
 - GitHub account
 - [Netlify account](https://netlify.com)
+- [Stripe account](https://stripe.com)
 - Node & NPM installed
 - [Netlify CLI](https://docs.netlify.com/cli/get-started/) installed
 
@@ -229,6 +229,229 @@ Repeat this for the other course:
 
 > Note 2: You can have both a development value and a production value for each redirect URL. We didn't have to set the development URL value because that was auto-generated as part of the dummy course data.
 
+## Stripe products
+
+Now that we have a deployed course site, we're going to set up Stripe products for our courses so that users can enroll themselves by making a purchase.
+
+Stripe provides a simple [client-only checkout feature](https://stripe.com/docs/payments/checkout/client) that can be added to your site with a few lines of JavaScript.
+
+Since the template you cloned already includes this code, all you need to do is set up the products in your Stripe dashboard and add the API keys to your site code.
+
+## Paid enrollment flow
+
+Once someone purchases your course, how do they then enroll? This is where we'll need to utilize Stripe's webhook feature. After a purchase, the student's email will be sent to the CourseKit API where a pending enrollment will be created. 
+
+From here, the enrollment process is identical to the manual enrollment process we saw above i.e. the student receives an email from which they can activate their account.
+
+Here is a summary of the complete enrollment workflow:
+
+1. The student clicks the enrollment link on a course and is redirected to Stripe checkout.
+2. The students enters their payment details and pays.
+3. Stripe triggers a webhook which calls a Netlify function.
+4. The function sends the student's data to CourseKit which creates a pending enrollment.
+5. The student receives an activation email for the course.
+6. The student activates their account by either registering or logging in.
+7. The Student now has full access to the course.
+
+## Stripe API keys
+
+We’re going to require API access to Stripe, so we’ll begin by getting out Stripe API key and adding it to our course site.
+
+If you haven’t already got a Stripe account, you can set one up for free. 
+
+Once you’ve done that, go to the Stripe dashboard.
+
+Make sure you’re in “Test mode” (toggle top right) and go the “Developers” page.
+
+From there, click the “API keys” tab. You should be able to now see two keys: your publishable key (starts with “pk_test..”) and your secret key (starts with “sk_test...”).
+
+Add these both to your .env file.
+
+```
+STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_SECRET_KEY=sk_test_...
+```
+
+## Create products
+
+The next thing we’ll do is create a separate Stripe product for each course - in our case, two products.
+
+go to the Products tab where we’ll be adding our new products.
+
+[stripe products]
+
+Now click “Add product” and we’ll add the first course product. Give your product a title - I think the course name makes sense e.g. “Photography for Beginners”.
+
+Go to Pricing information and set a price, for example, $49 USD. Make sure it’s a “One time” purchase as opposed to a subscription. You can, of course, use subscription pricing with CourseKit, but we’ll just make a one time purchase in this example.
+
+[ stripe product price information ]
+
+You’ll now have a product created and will be taken to the product overview page. Under the “Pricing” heading, you’ll see that you’ve been given a price API ID (start with “price_...”). Copy this value.
+
+Back in your course code base, go to the .env file and add a new environment variable `COURSE_1_PRICE_ID`:
+
+```
+COURSE_1_PRICE_ID=price_a73....
+```
+
+Now, repeat the above steps for the second course, “Advanced Photography”. After you’re done, you should have the price ID env variable stored for both courses:
+
+```
+COURSE_1_PRICE_ID=price_a73....
+COURSE_2_PRICE_ID=price_xv4....
+```
+
+## CourseKit API
+
+As will be explained below, the price IDs we’ve added to the environment variables will be used by the webhook to check which product was purchased by the student so it knows which course to enroll them in.
+
+However, the site itself also needs this data. Since the site data is populated dynamically, we will also need to add the price ID to our API
+
+In the dashboard, go the Courses tab and find your content. Add a new frontmatter variable to the `public` object which will be `stripePriceId`. 
+
+Save, and repeat for the other course.
+
+```
+---
+public:
+  description: 'Phasellus ac tellus tincidunt, pharetra dui eu, bibendum nulla.'
+  thumb: /cole-marshall-xmqG9NCq2DU-unsplash.jpg
+	stripePriceId: price_a73...
+---
+Pellentesque aliquet odio arcu, at vestibulum orci molestie vel. Maecenas fringilla nibh et nisl lobortis cursus. Sed aliquam congue lobortis.
+```
+
+## Test purchase
+
+Now that we have the Stripe API key and the price keys, we can successfully test a course purchase.
+
+If you haven’t already, restart your site’s dev server so the new env variables are recognized. 
+
+```
+$ netlify dev
+```
+
+Then, go to a course page and click “Enroll now”
+
+You’ll now be taken to a checkout page for the course you clicked. 
+
+Since this product was created in Test mode, you can enter phony details into this checkout page to test it. 
+
+Like before, you can use an email address that you can access. Use the credit card number “424242424242424242” and any other details and submit the purchase.
+
+After the purchase completes, you will be redirected to the course page. You’ll see a message “purchase successful”
+
+[ course page ]
+
+While the purchase worked, the student will not yet be added to your course. To make this happen, we need to set up a Stripe webhook to call a Netlify function, and then that function will add the student to CourseKit.
+
+## Enrollment URL
+
+You may have noticed in the CourseKit dashboard that each course has an “Enrollment URL” value. 
+
+This is a unique URL which, if you post an “email” value to it, will create a pending enrollment for the student owning that email.
+
+[ enrollment url in dashboard ]
+
+Copy the enrollment URL for each of the two courses and put them in the .env file:
+
+```
+COURSE_1_ENROLLMENT_URL=https://api.coursekit.dev/enroll/...
+COURSE_2_ENROLLMENT_URL=https://api.coursekit.dev/enroll/...
+```
+
+> Note: keep your Enrollment URLs safe - anyone can use them to post
+> 
+
+## Netlify function
+
+In the template used to create your site there is a file *functions/purchase-callback.js*.
+
+A Netlify “function” is a Node.js script you can add to your site that will be deployed to the address <your site>/.netlify/functions/purchase-callback
+
+This function will receive a POST request which will take a payload from Stripe and extract the email address of any purchase and in turn POST that to CourseKit.
+
+It is this function that is relying on the .env variables we set for the Stripe private key, price API keys, and CourseKit enrollment URL.
+
+This code will work out of the box, but I thought it was important to explain.
+
+## Creating Stripe webhook
+
+The last thing we need to do is create a Stripe webook. This will call our Netlify function after a purchase is made with the purchaser’s details (including email).
+
+To do this, go back to the Stripe dashboard and go to Developers > Webhooks and click “Add an endpoint”.
+
+While you can test your webhook locally using Stripe CLI, to keep this guide simple we’re going to skip straight to deployment.
+
+So provide the endpoint URL which will be:
+
+```
+<your site URL>/.netlify/functions/purchase-callback
+```
+
+[ screenshot webhook url ]
+
+You’ll then need to select which events your webhook gets called on. The only event we currently need is **checkout.session.completed** which is called after the student finishes paying.
+
+Once you’ve selected that, click “Add endpoint” and you’ll be taken to the webhook’s detail page.
+
+## Signing secret
+
+On the webhook detail page, note there is a field “Signing secret” here. This is a secret value that gets sent in every webhook and can be used in the function to verify that the data came from Stripe. (remember, Netlify functions are public so we need to assume that bots will try to submit data to it).
+
+Click the signing secret field and copy the value.
+
+[ screenshot webhook detail - circle signing secret ]
+
+Paste the webhook signing secret in your .env file:
+
+```
+STRIPE_WEBHOOK_SECRET=whsec_ju..
+```
+
+With that done, we have all the data we need to make our webhook function work.
+
+## Deploy to Netlify
+
+Since testing webhooks locally takes a few additional steps and since we don’t need to actually change any of the code, let’s jump straight to deployment.
+
+In fact, all you need to do is add the environment variables to Netlify. To do this, you can use the web app or the CLI:
+
+```
+$ netlify env:set STRIPE_PUBLISHABLE_KEY <stripe publishable key>
+$ netlify env:set STRIPE_SECRET_KEY <stripe secret key>
+$ netlify env:set STRIPE_WEBHOOK_SECRET <...>
+$ netlify env:set COURSE_1_PRICE_ID <...>
+$ netlify env:set COURSE_1_ENROLLMENT_URL <...>
+$ netlify env:set COURSE_2_PRICE_ID <...>
+$ netlify env:set COURSE_2_ENROLLMENT_URL <...>
+```
+
+You’ll then need to rebuild the app in Netlify for the environment variables to be included
+
+## Test purchase
+
+Nwo that you’ve set up Stripe and added the API keys to your site, the enrollment process will work from start to end. 
+
+Let’s try it. Go to one of the courses on your deployed site and enroll. Again, add in the fake details to make a test purchase - just make sure you use an email you can access.
+
+After the purchase completes, wait a few seconds and then check the Students tab of the CourseKit dashboard. You should now see this new enrollment with “Pending” status.
+
+From here, the flow is exactly the same as if you manually created the enrollment i.e. the student will receive an email from which they can activate their account and login.
+
+## Production
+
+We set up our product in Stripe’s Test mode so that we can test our purchase process. Once you’ve confirmed it’s working, though, you can now repeat the above steps using the Production mode. All you’ll need to change is that Stripe API and price keys in your environment variables, change the price IDs in the CourseKit API, and the checkout process will accept live payments!
+
+## Next steps
+
+With that done, you now have a deployed course site where students can pay to enroll in your course. 
+
+There are probably two main things you want to do now:
+
+1. Add your own content and replace the dummy courses
+2. Customize your course site with your own branding, styling, features
+
 ## Wrap up
 
-With that done, you now have a deployed course site! In [part 2 of the quick start guide](./quick-start-part-2.md), we'll set up Stripe products so that students can enroll themselves by purchasing the course.
+In part 3 of the quickstart, we’ll see how to add Vimeo videos to your course and learn how you can go about customizing your course site and content.
