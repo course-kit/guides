@@ -345,75 +345,64 @@ While the checkout process worked, the student will not yet be added to your cou
 
 ## Enrollment URL
 
-You may have noticed in the CourseKit dashboard that each course has an “Enrollment URL” value. 
+You may have noticed in the CourseKit dashboard that each course has an "Enrollment URL" value. This is a unique URL which, if you HTTP POST an `email` value to it, will create a pending enrollment for the student with that email.
 
-This is a unique URL which, if you post an “email” value to it, will create a pending enrollment for the student owning that email.
+![quick-start-1-23.png](assets/quick-start-1-23.png)
 
-[ enrollment url in dashboard ]
-
-Copy the enrollment URL for each of the two courses and put them in the .env file:
+Copy the enrollment URL for each of the two courses and put them in your .env file:
 
 ```
 COURSE_1_ENROLLMENT_URL=https://api.coursekit.dev/enroll/...
 COURSE_2_ENROLLMENT_URL=https://api.coursekit.dev/enroll/...
 ```
 
-> Note: keep your Enrollment URLs safe - anyone can use them to post
-> 
-
 ## Netlify function
 
-In the template used to create your site there is a file *functions/purchase-callback.js*.
+If you haven't used them before, Netlify "functions" are Node.js scripts you can add to your site that will be run in a secure context upon being requested.
 
-A Netlify “function” is a Node.js script you can add to your site that will be deployed to the address <your site>/.netlify/functions/purchase-callback
+In the template used to create your site there will be a function already created: *functions/purchase-callback.js*. When you deployed your site, this function was automatically deployed by Netlify to the URL `<your netlify url>/.netlify/functions/purchase-callback`.
 
-This function will receive a POST request which will take a payload from Stripe and extract the email address of any purchase and in turn POST that to CourseKit.
+This function has the job of responding to a Stripe webhook and then calling the correct enrollment URL with the user data. To do this, it will grab the email from a POST request at the above URL.
 
-It is this function that is relying on the .env variables we set for the Stripe private key, price API keys, and CourseKit enrollment URL.
+Let's now set up the Stripe webhook. 
 
-This code will work out of the box, but I thought it was important to explain.
+## Creating a Stripe webhook
 
-## Creating Stripe webhook
+To create a webhook, go back to the Stripe dashboard and go to Developers > Webhooks and click "Add an endpoint".
 
-The last thing we need to do is create a Stripe webook. This will call our Netlify function after a purchase is made with the purchaser’s details (including email).
-
-To do this, go back to the Stripe dashboard and go to Developers > Webhooks and click “Add an endpoint”.
-
-While you can test your webhook locally using Stripe CLI, to keep this guide simple we’re going to skip straight to deployment.
-
-So provide the endpoint URL which will be:
+While you can test your webhook locally using Stripe CLI, to keep this guide simple we’re going to skip straight to deployment. So provide your deployed site's function address which will be:
 
 ```
-<your site URL>/.netlify/functions/purchase-callback
+<your netlify url>/.netlify/functions/purchase-callback
 ```
 
-[ screenshot webhook url ]
+![quick-start-1-24.png](assets/quick-start-1-24.png)
 
-You’ll then need to select which events your webhook gets called on. The only event we currently need is **checkout.session.completed** which is called after the student finishes paying.
+You'll then need to select which Stripe events your webhook gets called for. The only event we currently need is **checkout.session.completed** which is called after the student finishes paying. 
 
-Once you’ve selected that, click “Add endpoint” and you’ll be taken to the webhook’s detail page.
+![quick-start-1-25.png](assets/quick-start-1-25.png)
+
+Go ahead and add that event, click "Add endpoint", and you’ll be taken to your new webhook's detail page.
 
 ## Signing secret
 
-On the webhook detail page, note there is a field “Signing secret” here. This is a secret value that gets sent in every webhook and can be used in the function to verify that the data came from Stripe. (remember, Netlify functions are public so we need to assume that bots will try to submit data to it).
+On the webhook detail page, note the field "Signing secret". This is a secret value that gets sent in every webhook and can be used in the function to verify that the data came from Stripe. (Netlify functions are public so we can't automatically trust the data they receive).
 
 Click the signing secret field and copy the value.
 
-[ screenshot webhook detail - circle signing secret ]
+![quick-start-1-26.png](assets/quick-start-1-26.png)
 
 Paste the webhook signing secret in your .env file:
+
+*.env*
 
 ```
 STRIPE_WEBHOOK_SECRET=whsec_ju..
 ```
 
-With that done, we have all the data we need to make our webhook function work.
-
 ## Deploy to Netlify
 
-Since testing webhooks locally takes a few additional steps and since we don’t need to actually change any of the code, let’s jump straight to deployment.
-
-In fact, all you need to do is add the environment variables to Netlify. To do this, you can use the web app or the CLI:
+Since testing webhooks locally takes a few additional steps and we don't need to change any of the code, let’s jump straight to deployment. Our code is already deployed, so we just need to set the environment variables in the production app. To do this, you can use the web app or the CLI:
 
 ```
 $ netlify env:set STRIPE_PUBLISHABLE_KEY <stripe publishable key>
@@ -425,11 +414,11 @@ $ netlify env:set COURSE_2_PRICE_ID <...>
 $ netlify env:set COURSE_2_ENROLLMENT_URL <...>
 ```
 
-You’ll then need to rebuild the app in Netlify for the environment variables to be included
+You'll then need to rebuild the app in Netlify for the environment variables to be included.
 
-## Test purchase
+## Test purchase flow
 
-Nwo that you’ve set up Stripe and added the API keys to your site, the enrollment process will work from start to end. 
+We now have everything set up, so the enrollment process should work from start to end. 
 
 Let’s try it. Go to one of the courses on your deployed site and enroll. Again, add in the fake details to make a test purchase - just make sure you use an email you can access.
 
