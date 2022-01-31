@@ -255,36 +255,34 @@ Here is a summary of the complete enrollment workflow:
 
 ## Stripe API keys
 
-We’re going to require API access to Stripe, so we’ll begin by getting out Stripe API key and adding it to our course site.
+We're going to require API access to Stripe, so we'll begin by retrieving the Stripe API keys and adding them to our development site.
 
-If you haven’t already got a Stripe account, you can set one up for free. 
+| If you haven’t already got a Stripe account, you can [create one for free](https://stripe.com). 
 
-Once you’ve done that, go to the Stripe dashboard.
+Go to your [Stripe dashboard](https://dashboard.stripe.com) and make sure you’re in "Test mode" (see the toggle in the top right) and then go to the "Developers" page.
 
-Make sure you’re in “Test mode” (toggle top right) and go the “Developers” page.
+From there, click the "API keys" tab. You should be able to now see two keys: your publishable key (starts with `pk_test..`) and your secret key (starts with `sk_test...`).
 
-From there, click the “API keys” tab. You should be able to now see two keys: your publishable key (starts with “pk_test..”) and your secret key (starts with “sk_test...”).
+Add both these variables to your .env file.
 
-Add these both to your .env file.
+*.env*
 
 ```
 STRIPE_PUBLISHABLE_KEY=pk_test_...
 STRIPE_SECRET_KEY=sk_test_...
 ```
 
-## Create products
+## Create products in Stripe
 
-The next thing we’ll do is create a separate Stripe product for each course - in our case, two products.
+The next thing we'll do is create Stripe Products for our two courses. To do this, go to the "Products" page in the Stripe dashboard.
 
-go to the Products tab where we’ll be adding our new products.
+![quick-start-1-20.png](assets/quick-start-1-20.png)
 
-[stripe products]
+Now click "Add product" and we'll add the first course product. For the product title, use the course name e.g. "Photography for Beginners".
 
-Now click “Add product” and we’ll add the first course product. Give your product a title - I think the course name makes sense e.g. “Photography for Beginners”.
+Next, go to "Pricing information" and set a price of your choice. Make sure it’s a "One time" purchase as opposed to a subscription. You can, of course, use subscription pricing with CourseKit, but we'll make it a one time purchase in this example.
 
-Go to Pricing information and set a price, for example, $49 USD. Make sure it’s a “One time” purchase as opposed to a subscription. You can, of course, use subscription pricing with CourseKit, but we’ll just make a one time purchase in this example.
-
-[ stripe product price information ]
+![quick-start-1-21.png](assets/quick-start-1-21.png)
 
 You’ll now have a product created and will be taken to the product overview page. Under the “Pricing” heading, you’ll see that you’ve been given a price API ID (start with “price_...”). Copy this value.
 
@@ -316,7 +314,7 @@ Save, and repeat for the other course.
 public:
   description: 'Phasellus ac tellus tincidunt, pharetra dui eu, bibendum nulla.'
   thumb: /cole-marshall-xmqG9NCq2DU-unsplash.jpg
-	stripePriceId: price_a73...
+  stripePriceId: price_a73...
 ---
 Pellentesque aliquet odio arcu, at vestibulum orci molestie vel. Maecenas fringilla nibh et nisl lobortis cursus. Sed aliquam congue lobortis.
 ```
