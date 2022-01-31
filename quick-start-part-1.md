@@ -1,5 +1,7 @@
 # CourseKit Quick-Start Guide
 
+> For feedback and comments see [this discussion thread](https://github.com/course-kit/guides/discussions/5)
+
 CourseKit is the easiest way for developers to create fully-custom online courses using their favorite frontend tech stack. Thanks to the CourseKit headless API platform, you won’t need a server, just a static site and you’ll get all the features you’ll need to provide a rich course experience for your prospective students.
 
 This guide will take you through the steps of setting up a working CourseKit site in around fifteen minutes! After that, you can go back and customize it how you want and fill in the content for your lessons so you’re ready to launch.
@@ -432,4 +434,4 @@ We set up our products in Stripe's test mode so that we can test our purchase pr
 
 And with that, we've now set up a working CourseKite site! From here, you'll want to replace the dummy courses with your own content, and perhaps customize your site. A good next step would be to learn more about the [CourseKit client library](https://github.com/course-kit/client).
 
-If you have any questions or comments please let us know here.
+If you have any questions or comments please let us know [here](https://github.com/course-kit/guides/discussions/5).
