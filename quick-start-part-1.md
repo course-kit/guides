@@ -40,7 +40,7 @@ The first thing we'll do is create a CourseKit school. Go to [https://dashboard.
 
 ![quick-start-1-1.png](assets/quick-start-1-1.png)
 
-After your account is created you’ll be taken to the CourseKit dashboard. If you click on the “Courses” tab you’ll be able to see your basic school information and your courses. 
+After your account is created you'll be taken to the CourseKit dashboard. If you click on the “Courses” tab you’ll be able to see your basic school information and your courses. 
 
 > Note: there are already two test courses added by default to a new user’s account - *Photography for Beginners* and *Advanced Photography*. These courses provide dummy data you can play with and help you understand how courses set up in CourseKit. After you complete this quickstart you can, of course, customize these with your own content, or delete them altogether.
 
@@ -331,7 +331,7 @@ $ netlify dev
 
 Now, go to a course page and click "Enroll now". Under the hood, this button is now a link to your Stripe product.
 
-![quick-start-1-5.png](assets/quick-start-1-5.png)
+![quick-start-1-6.png](assets/quick-start-1-6.png)
 
 After a moment you'll be taken to the product's checkout page. Since the product was created in Test mode, you can enter phony details to test a purchase.
 
@@ -418,27 +418,18 @@ You'll then need to rebuild the app in Netlify for the environment variables to 
 
 ## Test purchase flow
 
-We now have everything set up, so the enrollment process should work from start to end. 
+We now have everything set up, so the enrollment process should work from start to end. Go to one of the courses on your deployed site and enroll. Again, provide phony details to make a test purchase - just make sure you use an email you can access.
 
-Let’s try it. Go to one of the courses on your deployed site and enroll. Again, add in the fake details to make a test purchase - just make sure you use an email you can access.
-
-After the purchase completes, wait a few seconds and then check the Students tab of the CourseKit dashboard. You should now see this new enrollment with “Pending” status.
+After the purchase completes, wait a few seconds and then check the Students tab of the CourseKit dashboard. You should now see this new enrollment with "PENDING" status.
 
 From here, the flow is exactly the same as if you manually created the enrollment i.e. the student will receive an email from which they can activate their account and login.
 
-## Production
+## Live products
 
-We set up our product in Stripe’s Test mode so that we can test our purchase process. Once you’ve confirmed it’s working, though, you can now repeat the above steps using the Production mode. All you’ll need to change is that Stripe API and price keys in your environment variables, change the price IDs in the CourseKit API, and the checkout process will accept live payments!
-
-## Next steps
-
-With that done, you now have a deployed course site where students can pay to enroll in your course. 
-
-There are probably two main things you want to do now:
-
-1. Add your own content and replace the dummy courses
-2. Customize your course site with your own branding, styling, features
+We set up our products in Stripe's test mode so that we can test our purchase process. Once you’ve confirmed it's working you can now repeat the above steps in live mode so that your site can accept real payments. Don't forget to change the Stripe API keys and price API keys in your environment variables and in the course content.
 
 ## Wrap up
 
-In part 3 of the quickstart, we’ll see how to add Vimeo videos to your course and learn how you can go about customizing your course site and content.
+And with that, we've now set up a working CourseKite site! From here, you'll want to replace the dummy courses with your own content, and perhaps customize your site. A good next step would be to learn more about the [CourseKit client library](https://github.com/course-kit/client).
+
+If you have any questions or comments please let us know here.
