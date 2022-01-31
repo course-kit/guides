@@ -1,3 +1,5 @@
+> **Note: this guide is currently out of date and some of the info may be wrong. Will be updated soon.**
+ 
 # CourseKit Getting Started Guide
 
 > For feedback and comments see [this discussion thread](https://github.com/course-kit/guides/discussions/3).
