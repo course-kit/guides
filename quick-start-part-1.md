@@ -286,6 +286,8 @@ Next, go to "Pricing information" and set a price of your choice. Make sure it�
 
 Go ahead and create the product after which you'll be taken to the product detail page. Under the "Pricing" heading, you’ll see that you've been given a **price API ID** (start with `price_...`). Copy this value.
 
+
+
 Go back to the .env file and add a new environment variable `COURSE_1_PRICE_ID`:
 
 *.env*
@@ -319,29 +321,27 @@ Pellentesque aliquet odio arcu, at vestibulum orci molestie vel. Maecenas fringi
 
 Save, and repeat for the other course.
 
-## Test purchase
+## Testing the checkout
 
-Now that we have the Stripe API key and the price keys, we can successfully test a course purchase.
-
-If you haven’t already, restart your site’s dev server so the new env variables are recognized. 
+Now that we have the Stripe API key and the price keys, we're ready to test the checkout. Go ahead and restart your site's dev server so the new environment variables are recognized.
 
 ```
 $ netlify dev
 ```
 
-Then, go to a course page and click “Enroll now”
+Now, go to a course page and click "Enroll now". Under the hood, this button is now a link to your Stripe product.
 
-You’ll now be taken to a checkout page for the course you clicked. 
+![quick-start-1-5.png](assets/quick-start-1-5.png)
 
-Since this product was created in Test mode, you can enter phony details into this checkout page to test it. 
+After a moment you'll be taken to the product's checkout page. Since the product was created in Test mode, you can enter phony details to test a purchase.
 
-Like before, you can use an email address that you can access. Use the credit card number “424242424242424242” and any other details and submit the purchase.
+Be sure to use an email address that you can access. Use the credit card number "424242424242424242" and make up any other details and submit the purchase.
 
-After the purchase completes, you will be redirected to the course page. You’ll see a message “purchase successful”
+After the purchase completes, you should be redirected back to the course page. You shoudl see a "purchase successful" message at the top of the page.
 
-[ course page ]
+![quick-start-1-22.png](assets/quick-start-1-22.png)
 
-While the purchase worked, the student will not yet be added to your course. To make this happen, we need to set up a Stripe webhook to call a Netlify function, and then that function will add the student to CourseKit.
+While the checkout process worked, the student will not yet be added to your course. To make this happen, we now need to set up a Stripe webhook to call a Netlify function that will in turn add the student to CourseKit.
 
 ## Enrollment URL
 
