@@ -56,7 +56,7 @@ You may have questions about what some of the other fields are for. We'll utiliz
 
 ## Install site template
 
-Since CourseKit is a "headless" course platform, your course content is accessible through an API. So now you'll want to create a course website where you courses can be displayed.
+Since CourseKit is a "headless" course platform, your course content is accessible through an API. So now you'll want to create a course website where your courses can be displayed.
 
 Rather than creating a site from scratch, let's install a [site template](https://github.com/course-kit/nuxt-demo). This will provide the basic features of a course out-of-the-box, and allow you to come back later and customize the UI and UX to your taste.
 
@@ -116,7 +116,7 @@ After the dev server finishes compiling, Netlify CLI will open your site in the 
 
 ![quick-start-1-5.png](assets/quick-start-1-5.png)
 
-Now, take a look around your site. Click you courses and see the main course page, as well as all the lessons.
+Now, take a look around your site. Click your courses and see the main course page, as well as all the lessons.
 
 ![quick-start-1-6.png](assets/quick-start-1-6.png)
 
@@ -130,9 +130,9 @@ We haven't yet added any student accounts, though, so let's do that now.
 
 To enroll a student in one of your courses, you will likely get them to pay for your course via an ecommerce platform like Stripe or Gumroad. We'll be setting up Stripe products shortly. For now, you can add students to your courses manually via the dashboard.
 
-Go to **Students tab** of the dashboard and click the add (plus) button where you can enter a name, email, and select a course. You'll should also tick the checkbox indicating that the student should be redirected to the development site after login rather than the production site.
+Go to **Students tab** of the dashboard and click the add (plus) button where you can enter a name, email, and select a course. You should also tick the checkbox indicating that the student should be redirected to the development site after login rather than the production site.
 
-> Note: you'll need to use an email address that you can access since students require email activation. However, the email should be different to your CourseKit user email. If you don't have extra email addresses, an easy way is to append `+<some string>` to your email prefix e.g. *yourname+somestring@domain.com*. This email should automatically be aliased to your current inbox.
+> Note: you'll need to use an email address that you can access since students require email activation. However, the email should be different from your CourseKit user email. If you don't have extra email addresses, an easy way is to append `+<some string>` to your email prefix e.g. *yourname+somestring@domain.com*. This email should automatically be aliased to your current inbox.
 
 ![quick-start-1-19.png](assets/quick-start-1-19.png)
 
@@ -166,7 +166,7 @@ Now that you're logged in as a student, click around your site and you'll see a 
 
 ![quick-start-1-14.png](assets/quick-start-1-14.png)
 
-Go ahead and experiement with the site - play the video, complete the lessons, etc. And keep in mind all the content and site behavior can be customized by modifying the code of your template. If you're interested in how to do this, check out the [CourseKit JavaScript client](https://github.com/course-kit/client).
+Go ahead and experiment with the site - play the video, complete the lessons, etc. And keep in mind all the content and site behavior can be customized by modifying the code of your template. If you're interested in how to do this, check out the [CourseKit JavaScript client](https://github.com/course-kit/client).
 
 ## Deploy to Netlify
 
@@ -197,7 +197,7 @@ $ netlify env:set COURSEKIT_SCHOOL_ID <your schoolId>
 $ netlify env:set NODE_ENV production
 ```
 
-You’ll now need to rebuild the site for these environment variables to be incorported in the site build. To do this, you'll have to go the Netlify site and manually trigger a deploy:
+You'll now need to rebuild the site for these environment variables to be incorporated in the site build. To do this, you'll have to go to the [Netlify web app](https://app.netlify.com) and manually trigger a deploy:
 
 ![quick-start-1-15.png](assets/quick-start-1-15.png)
 
@@ -237,7 +237,7 @@ Stripe provides a simple [client-only checkout feature](https://stripe.com/docs/
 
 ## Paid enrollment flow
 
-Once someone purchases your course, how does CourseKit know they are enrolled? This is where we'll need to utilize Stripe's webhook feature. After a purchase, the student's email will be sent to the CourseKit API where a pending enrollment will be created. 
+Once someone purchases your course, how does CourseKit know they are enrolled? This is where we'll need to utilize Stripe's webhook feature. After a purchase the student's email will be sent to the CourseKit API where a pending enrollment will be created. 
 
 From here, the enrollment process is identical to the manual enrollment process we saw above i.e. the student receives an email from which they can activate their account, etc.
 
@@ -275,7 +275,7 @@ The next thing we'll do is create **Stripe Products** for our two courses. To do
 
 Now click "Add product" and we'll add the first course product. For the product title, use the course name e.g. "Photography for Beginners".
 
-Next, go to "Pricing information" and set a price of your choice. Make sure it’s a "One time" purchase as opposed to a subscription. You can, of course, use subscription pricing with CourseKit, but we'll make it a one time purchase in this example.
+Next, go to "Pricing information" and set a price of your choice. Make sure it’s a "One time" purchase as opposed to a subscription. You can, of course, use subscription pricing with CourseKit, but we'll make it a one-time purchase in this example.
 
 ![quick-start-1-21.png](assets/quick-start-1-21.png)
 
@@ -336,7 +336,7 @@ Be sure to use an email address that you can access. Use the credit card number 
 
 ![quick-start-1-28.png](assets/quick-start-1-28.png)
 
-After the purchase completes, you should be redirected back to the course page. You shoudl see a "purchase successful" message at the top of the page.
+After the purchase completes, you should be redirected back to the course page. You should also see a "purchase successful" message at the top of the page.
 
 ![quick-start-1-22.png](assets/quick-start-1-22.png)
 
@@ -344,7 +344,7 @@ While the checkout process worked, *the student will not yet be added to your co
 
 ## Enrollment URL
 
-You may have noticed in the CourseKit dashboard that each course has an *enrollment URL* value. This is a unique URL which, if you HTTP POST an `email` value to it, will create a pending enrollment for the student with that email.
+You may have noticed in the CourseKit dashboard that each course has an *enrollment URL* value. This is a unique URL that, if you HTTP POST an `email` value to it, will create a pending enrollment for the student with that email.
 
 ![quick-start-1-23.png](assets/quick-start-1-23.png)
 
@@ -359,15 +359,15 @@ COURSE_2_ENROLLMENT_URL=https://api.coursekit.dev/enroll/...
 
 If you haven't used them before, **Netlify functions** are Node.js scripts you can add to your site that will be run in a secure context upon being requested.
 
-In the template used to create your site there will be a function already created: *functions/purchase-callback.js*. When you deployed your site, this function was automatically deployed by Netlify to the URL `<your netlify url>/.netlify/functions/purchase-callback`.
+In the template used to create your site, there will be a function already created: *functions/purchase-callback.js*. When you deployed your site, this function was automatically deployed by Netlify to the URL `<your netlify url>/.netlify/functions/purchase-callback`.
 
-This function is the "purchase callback" has the job of responding to a Stripe webhook and then calling the correct enrollment URL with the user data which it grabs from POST body.
+This function is the "purchase callback" and has the job of responding to a Stripe webhook and then calling the correct enrollment URL with the user data which it grabs from POST body.
 
 You don't need to change this function at all, but you will need to now set up the Stripe webhook which will activate this function. 
 
 ## Creating a Stripe webhook
 
-To create a **Strip webhook**, go back to the Stripe dashboard and go to *Developers > Webhooks* and click "Add an endpoint".
+To create a **Stripe webhook**, go back to the Stripe dashboard and go to *Developers > Webhooks* and click "Add an endpoint".
 
 While you can test your webhook locally using Stripe CLI, to keep this guide simple we’re going to skip straight to deployment. So for the *Endpoint URL* field, provide your purchase callback's deployed URL which will be:
 
@@ -419,7 +419,7 @@ We now have everything set up, so the enrollment process should work from start 
 
 After the purchase completes, wait a few seconds and then check the Students tab of the CourseKit dashboard. You should now see this new enrollment with "PENDING" status.
 
-From here, the flow is exactly the same as if you manually created the enrollment i.e. the student will receive an email from which they can activate their account and login.
+From here, the flow is exactly the same as if you manually created the enrollment i.e. the student will receive an email from which they can activate their account and log in.
 
 ## Live products
 
@@ -429,8 +429,8 @@ Don't forget to change the Stripe API keys and price API keys in your environmen
 
 ## Wrap up
 
-We've now completed our set up of a functioning CourseKite site! From here, you'll want to replace the dummy courses with your own content, and perhaps customize your site's HTML and CSS. 
+We've now completed our setup of a functioning CourseKite site! From here, you'll want to replace the dummy courses with your own content, and perhaps customize your site's HTML and CSS. 
 
-Another good good next step would be to learn more about the [CourseKit client library](https://github.com/course-kit/client). This will allow you to customize your site in even more detail.
+Another good next step would be to learn more about the [CourseKit client library](https://github.com/course-kit/client). This will allow you to customize your site in even more detail.
 
 If you have any questions or comments about this tutorial, let us know on the [CourseKit Discord](https://discord.gg/ugXJFkw6hv). If you spot any bugs let us know [in the discussion thread](https://github.com/course-kit/guides/discussions/5).
