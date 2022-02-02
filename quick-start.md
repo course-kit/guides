@@ -340,11 +340,11 @@ After the purchase completes, you should be redirected back to the course page. 
 
 ![quick-start-1-22.png](assets/quick-start-1-22.png)
 
-While the checkout process worked, the student will not yet be added to your course. To make this happen, we now need to set up a Stripe webhook to call a Netlify function that will in turn add the student to CourseKit.
+While the checkout process worked, *the student will not yet be added to your course*. To make this happen, we now need to set up a Stripe webhook to call a Netlify function that will in turn add the student to CourseKit.
 
 ## Enrollment URL
 
-You may have noticed in the CourseKit dashboard that each course has an "Enrollment URL" value. This is a unique URL which, if you HTTP POST an `email` value to it, will create a pending enrollment for the student with that email.
+You may have noticed in the CourseKit dashboard that each course has an *enrollment URL* value. This is a unique URL which, if you HTTP POST an `email` value to it, will create a pending enrollment for the student with that email.
 
 ![quick-start-1-23.png](assets/quick-start-1-23.png)
 
@@ -355,21 +355,21 @@ COURSE_1_ENROLLMENT_URL=https://api.coursekit.dev/enroll/...
 COURSE_2_ENROLLMENT_URL=https://api.coursekit.dev/enroll/...
 ```
 
-## Netlify function
+## Purchase callback
 
-If you haven't used them before, Netlify "functions" are Node.js scripts you can add to your site that will be run in a secure context upon being requested.
+If you haven't used them before, **Netlify functions** are Node.js scripts you can add to your site that will be run in a secure context upon being requested.
 
 In the template used to create your site there will be a function already created: *functions/purchase-callback.js*. When you deployed your site, this function was automatically deployed by Netlify to the URL `<your netlify url>/.netlify/functions/purchase-callback`.
 
-This function has the job of responding to a Stripe webhook and then calling the correct enrollment URL with the user data. To do this, it will grab the email from a POST request at the above URL.
+This function is the "purchase callback" has the job of responding to a Stripe webhook and then calling the correct enrollment URL with the user data which it grabs from POST body.
 
-Let's now set up the Stripe webhook. 
+You don't need to change this function at all, but you will need to now set up the Stripe webhook which will activate this function. 
 
 ## Creating a Stripe webhook
 
-To create a webhook, go back to the Stripe dashboard and go to Developers > Webhooks and click "Add an endpoint".
+To create a **Strip webhook**, go back to the Stripe dashboard and go to *Developers > Webhooks* and click "Add an endpoint".
 
-While you can test your webhook locally using Stripe CLI, to keep this guide simple we’re going to skip straight to deployment. So provide your deployed site's function address which will be:
+While you can test your webhook locally using Stripe CLI, to keep this guide simple we’re going to skip straight to deployment. So for the *Endpoint URL* field, provide your purchase callback's deployed URL which will be:
 
 ```
 <your netlify url>/.netlify/functions/purchase-callback
@@ -385,13 +385,11 @@ Go ahead and add that event, click "Add endpoint", and you’ll be taken to your
 
 ## Signing secret
 
-On the webhook detail page, note the field "Signing secret". This is a secret value that gets sent in every webhook and can be used in the function to verify that the data came from Stripe. (Netlify functions are public so we can't automatically trust the data they receive).
-
-Click the signing secret field and copy the value.
+On the webhook detail page, note the field *Signing secret*. This is a secret value that gets sent in every webhook and can be used in the function to verify that the data came from Stripe. (Netlify functions are public so we shouldn't automatically trust the data they receive).
 
 ![quick-start-1-26.png](assets/quick-start-1-26.png)
 
-Paste the webhook signing secret in your .env file:
+Click the signing secret field and paste the webhook signing secret in your .env file:
 
 *.env*
 
@@ -399,7 +397,7 @@ Paste the webhook signing secret in your .env file:
 STRIPE_WEBHOOK_SECRET=whsec_ju..
 ```
 
-## Deploy to Netlify
+## Deploy Stripe config to Netlify
 
 Since testing webhooks locally takes a few additional steps and we don't need to change any of the code, let’s jump straight to deployment. Our code is already deployed, so we just need to set the environment variables in the production app. To do this, you can use the web app or the CLI:
 
@@ -425,10 +423,14 @@ From here, the flow is exactly the same as if you manually created the enrollmen
 
 ## Live products
 
-We set up our products in Stripe's test mode so that we can test our purchase process. Once you’ve confirmed it's working you can now repeat the above steps in live mode so that your site can accept real payments. Don't forget to change the Stripe API keys and price API keys in your environment variables and in the course content.
+We set up our products in Stripe's test mode so that we can test our purchase process. Once you’ve confirmed it's working you can now repeat the above steps in **live mode** so that your site can accept real payments. 
+
+Don't forget to change the Stripe API keys and price API keys in your environment variables and in the course content.
 
 ## Wrap up
 
-And with that, we've now set up a working CourseKite site! From here, you'll want to replace the dummy courses with your own content, and perhaps customize your site. A good next step would be to learn more about the [CourseKit client library](https://github.com/course-kit/client).
+We've now completed our set up of a functioning CourseKite site! From here, you'll want to replace the dummy courses with your own content, and perhaps customize your site's HTML and CSS. 
 
-If you have any questions or comments please let us know [here](https://github.com/course-kit/guides/discussions/5).
+Another good good next step would be to learn more about the [CourseKit client library](https://github.com/course-kit/client). This will allow you to customize your site in even more detail.
+
+If you have any questions or comments about this tutorial, let us know on the [CourseKit Discord](https://discord.gg/ugXJFkw6hv). If you spot any bugs let us know [in the discussion thread](https://github.com/course-kit/guides/discussions/5).
