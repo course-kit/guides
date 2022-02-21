@@ -58,9 +58,9 @@ You may have questions about what some of the other fields are for. We'll utiliz
 
 Since CourseKit is a "headless" course platform, your course content is accessible through an API. So now you'll want to create a course website where your courses can be displayed.
 
-Rather than creating a site from scratch, let's install a [site template](https://github.com/course-kit/nuxt-demo). This will provide the basic features of a course out-of-the-box, and allow you to come back later and customize the UI and UX to your taste.
+Rather than creating a site from scratch, let's install a [site template](https://github.com/course-kit/guides/blob/master/templates.md). This will provide the basic features of a course out-of-the-box, and allow you to come back later and customize the UI and UX to your taste.
 
-> Note: as CourseKit is still new, we currently only have the [Nuxt (Vue.js)](https://github.com/course-kit/nuxt-demo) template available (more will be provided soon). Even if you don't want to use Nuxt or Vue to create your course, I recommend you continue following this guide to get a feel for CourseKit and then build your own site later.
+> Note: in this guide we'll be using the [Nuxt (Vue.js)](https://github.com/course-kit/nuxt-demo) template. Most of the directions can be followed even if you choose a different template.
 
 To install the template, first, make a fork by clicking the "Fork" button in the top right. It's important to do this so that you have your own private repo that you can deploy from.
 
